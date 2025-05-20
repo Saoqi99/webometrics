@@ -1,0 +1,83 @@
+Bisa—sebenarnya cukup mungkin membangun semacam “checker” otomatis untuk profil Google Scholar afiliasi UIN Sunan Kalijaga, yang menandai paper–paper yang tampaknya tidak ditulis oleh pemilik akun. Garis besar arsitekturnya kira‑kira sebagai berikut:
+
+Koleksi Daftar Profil
+
+Input: daftar Google Scholar IDs (atau URL) yang sudah diverifikasi afiliasinya dengan UIN Sunan Kalijaga.
+
+Bisa dikumpulkan manual dari portal institusi, atau di‑scrape/semi‑otomatis lewat Google Scholar (dengan tools seperti scholarly di Python, tapi perhatikan Terms of Service).
+
+Ambil Metadata Profil
+
+Untuk setiap ID, fetch data profil:
+
+Nama lengkap pemilik akun
+
+Daftar publikasi (judul, tahun, URL, kadang juga daftar penulis)
+
+Tools:
+
+scholarly (unofficial API)
+
+Selenium/Playwright + BeautifulSoup (jika butuh render JavaScript)
+
+Ambil Metadata Paper
+
+Untuk setiap publikasi, ambil metadata terperinci:
+
+Daftar semua penulis (urutan, format nama)
+
+Sumber:
+
+Halaman jurnal / CrossRef API / Scopus API (jika tersedia)
+
+Pencocokan Nama (Name‑Matching)
+
+Profil Name vs Author List
+
+Lakukan normalisasi: buang gelar, kapitalisasi, ejaan alternatif (e.g. “A. Budi” vs “Andi Budi”)
+
+Gunakan teknik fuzzy matching (misal fuzzywuzzy / rapidfuzz) atau embedding‑based similarity (spaCy) untuk memastikan bahwa nama pemilik akun muncul di daftar penulis.
+
+Flag Anomali
+
+Jika similarity score di bawah threshold (misal 80%), tandai sebagai potensi “paper asing”.
+
+Kumpulkan laporan: paper mana yang tidak cocok, skor kecocokan, metadata lengkap.
+
+Dashboard / Laporan
+
+Web‑UI sederhana (Flask / FastAPI + React) yang menampilkan:
+
+Profil yang dicek
+
+Persentase paper yang cocok vs tidak cocok
+
+Daftar detail anomali untuk ditindaklanjuti oleh tim verifikasi UIN
+
+Otomatisasi & Pembaruan Berkala
+
+Scheduler (cron job) yang setiap minggu/bulan:
+
+Mengecek profil baru
+
+Mengupdate laporan
+
+Caveat & Etika
+
+Terms of Service: scraping Google Scholar secara massal dapat melanggar kebijakan Google. Disarankan pakai API resmi (jika ada) atau lakukan rate‑limiting yang konservatif.
+
+Validasi Manual: tool ini hanya flagging awal—hasil akhirnya harus diverifikasi tim admin/komite akademik sebelum mengambil tindakan.
+
+Contoh Teknologi & Pustaka
+
+Python: scholarly, requests, BeautifulSoup4, rapidfuzz
+
+Data API: CrossRef REST API (https://api.crossref.org/works) untuk metadata paper
+
+Web Framework: Flask atau FastAPI + frontend React/Vue
+
+Database: SQLite/PostgreSQL untuk menyimpan profil & hasil cek
+
+Scheduler: cron atau APScheduler di Python
+
+Dengan arsitektur ini, UIN Sunan Kalijaga bisa mengotomatiskan deteksi potensi “paper asing” dalam profil Google Scholar afiliasi, mempercepat proses validasi, dan menjaga integritas data publikasi institusi.

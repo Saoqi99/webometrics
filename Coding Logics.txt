@@ -1,0 +1,36 @@
+Penjelasan Logika:
+Fungsi check_publication_for_author
+
+Menerima nama pemilik akun dan string penulis dari publikasi.
+
+Memecah string penulis berdasarkan tanda koma atau kata "and".
+
+Melakukan perbandingan fuzzy (dengan threshold default 80) antara nama pemilik akun dan setiap nama penulis.
+
+Fungsi process_profile
+
+Mengambil data profil Google Scholar menggunakan scholarly.search_author_id().
+
+Mengisi data profil untuk mendapatkan detail seperti nama dan daftar publikasi.
+
+Untuk setiap publikasi, mengisi data detail publikasi dan mengambil informasi penulis serta judul.
+
+Memeriksa apakah nama pemilik akun terdapat dalam daftar penulis menggunakan fungsi check_publication_for_author.
+
+Menyimpan hasil pemeriksaan tiap publikasi dalam bentuk list.
+
+Bagian Main Program
+
+Mendefinisikan daftar Google Scholar ID untuk akun yang akan dicek.
+
+Memproses setiap profil dan mencetak hasilnya.
+
+Kode di atas merupakan langkah awal yang bisa dikembangkan lebih lanjut, misalnya dengan:
+
+Menambahkan validasi afiliasi (misalnya memastikan bahwa domain atau institusi terkait terdapat pada profil).
+
+Membuat tampilan dashboard atau laporan hasil verifikasi.
+
+Mengoptimalkan penanganan error dan penjadwalan (scheduler) untuk pengecekan berkala.
+
+Semoga contoh logika koding ini dapat membantu sebagai titik awal pengembangan tools yang Anda inginkan!
